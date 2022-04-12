@@ -83,14 +83,17 @@ def recv_loc():
 	except:
 		haha = 0
 def ngrok_token_check():
-	n = open('config','r')
-	ngrok_token = n.read()
+	n = open('config.json','r')
+	no = n.read()
+	token = json.loads(no)
+	ngrok_token = token['ngrok_token']
 	n.close()
 	if not ngrok_token:
 		ngrok_token = input("Enter you ngrok token: ")
 		print("\n\n")
-		p = open("config","w")
+		p = open("config.txt","w")
 		p.write(ngrok_token)
+		
 	return ngrok_token
 		
 	
