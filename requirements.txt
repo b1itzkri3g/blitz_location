@@ -1,0 +1,8 @@
+pyfiglet
+pyngrok
+colorama
+subprocess
+termcolor
+bs4
+urllib
+lxml
