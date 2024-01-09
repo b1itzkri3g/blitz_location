@@ -91,7 +91,7 @@ def ngrok_token_check():
 	if not ngrok_token:
 		ngrok_token = input("Enter you ngrok token: ")
 		print("\n\n")
-		p = open("config.txt","w")
+		p = open("config.json","w")
 		p.write('{ "ngrok_token": "')
 		p.write(ngrok_token)
 		p.write('"}')
